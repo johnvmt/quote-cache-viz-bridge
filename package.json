@@ -1,0 +1,62 @@
+{
+  "name": "quote-cache-viz-bridge",
+  "version": "0.0.1",
+  "description": "Output Quote Cache variables to Viz",
+  "private": true,
+  "author": {
+    "name": "John Murphy-Teixidor",
+    "email": "johnvmt@gmail.com"
+  },
+  "devDependencies": {
+    "electron": "^7.1.7",
+    "electron-builder": "^21.2.0",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "command-line-args": "^5.1.1",
+    "command-line-usage": "^6.1.0",
+    "esm": "^3.2.25",
+    "graphql-http-ws-client": "^0.0.5",
+    "graphql-tag": "^2.10.1",
+    "wolfy87-eventemitter": "^5.2.8",
+    "ws": "^7.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnvmt/quote-cache-viz-bridge"
+  },
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder build --win"
+  },
+  "main": "cli.js",
+  "build": {
+    "productName": "Quote Cache Viz Bridge",
+    "appId": "com.turner.datastore.quotecachevizbridge",
+    "asar": true,
+    "extraFiles": [
+      {
+        "from": "assets",
+        "to": "resources",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "publish": null,
+      "asar": true,
+      "publisherName": "CNN DataStore",
+      "target": [
+        "portable", "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": false,
+      "installerIcon": "build/icon.ico"
+    }
+  }
+}

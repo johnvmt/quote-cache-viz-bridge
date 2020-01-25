@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+    <title>Log</title>
+    <style>
+        body {
+            font-family: monospace;
+            color: #ffffff;
+            background-color: #000000;
+
+        }
+
+        #log {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #log li {
+            padding-bottom: 3px;
+        }
+    </style>
+</head>
+<body>
+    <ul id="log"></ul>
+    <script>
+        const debugParent = document.querySelector('#log');
+        require('electron').ipcRenderer.on('debug-data', function (event, debugString) {
+	    	while(debugParent.childElementCount > 1000)
+                debugParent.removeChild(debugParent.childNodes[0]);
+
+            const debugChild = document.createElement('li');
+            debugChild.innerText = debugString;
+		    debugParent.appendChild(debugChild);
+		    window.scrollTo(0,document.body.scrollHeight);
+	    });
+    </script>
+</body>
+</html>

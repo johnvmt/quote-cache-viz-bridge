@@ -1,0 +1,45 @@
+image: Visual Studio 2017
+
+platform:
+  - x64
+
+environment:
+  GH_TOKEN:
+    secure: 6rqYqTWWocrx45Pb827mB6BJxougvQn/QabUVH2N5e6pyecrRMDKKlfOBJo6BtjS
+
+skip_non_tags: true
+
+cache:
+  - node_modules
+  - '%USERPROFILE%\.electron'
+  - '%LOCALAPPDATA%\.electron'
+  - '%LOCALAPPDATA%\electron-builder'
+
+init:
+  - git config --global core.autocrlf input
+
+install:
+  - ps: Install-Product node 10 x64
+  - yarn
+
+build_script:
+  - yarn dist
+
+artifacts:
+  - path: dist\*.exe
+    name: installer
+
+deploy:
+  release: $(APPVEYOR_REPO_TAG_NAME)
+  # description: 'Release description'
+  provider: GitHub
+  auth_token:
+    secure: 6rqYqTWWocrx45Pb827mB6BJxougvQn/QabUVH2N5e6pyecrRMDKKlfOBJo6BtjS
+  artifact: installer
+  draft: false
+  prerelease: false
+  on:
+    branch: master
+    APPVEYOR_REPO_TAG: true
+
+test: off
