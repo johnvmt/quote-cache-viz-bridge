@@ -62,7 +62,6 @@ class VizDataSocket extends EventEmitter {
 			`send RENDERER*FUNCTION*DataPool*Data SET ${formattedKey}=${formattedValue}\0` :
 			`${key}|${formattedValue}\0`;
 
-
 		// TODO Add try/catch
 		this.dataSocket.write(commandStr);
 	}
@@ -77,16 +76,16 @@ class VizDataSocket extends EventEmitter {
 		else if(typeof object !== 'object')
 			return object;
 		else if(Array.isArray(object))
-			return `{${object.map(child => VizDataSocket.stringifyObject(child)).join(', ')}`
+			return `{${object.map(child => VizDataSocket.stringifyObject(child)).join(', ')}},`;
 		else {
 			let objectPropertyStrings = [];
 			for(let childProperty in object) {
 				if(object.hasOwnProperty(childProperty)) {
 					const childStringValue = VizDataSocket.stringifyObject(object[childProperty]);
-					objectPropertyStrings.push(`"${childProperty}"="${childStringValue}"`);
+					objectPropertyStrings.push(`${childProperty}=${childStringValue};`);
 				}
 			}
-			return `{${objectPropertyStrings.join(', ')}}`
+			return `{${objectPropertyStrings.join(' ')}}`
 		}
 	}
 }

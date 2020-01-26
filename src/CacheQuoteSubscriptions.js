@@ -12,6 +12,8 @@ class CacheQuoteSubscriptions extends EventEmitter {
 
 		self._options = options;
 
+		this._variableSubscriptions = [];
+
 		const {client, subscriptionClient} = createGraphQLClient(serverURL, {
 			websocket: WebSocket,
 			createWebsocketLink: true,
@@ -64,6 +66,15 @@ class CacheQuoteSubscriptions extends EventEmitter {
 		}
 
 		 */
+	}
+
+	get data() {
+		const dataArr = [];
+		for(let variableSubscription of this._variableSubscriptions) {
+			dataArr.push(variableSubscription.data);
+		}
+
+		return dataArr;
 	}
 
 	debug() {

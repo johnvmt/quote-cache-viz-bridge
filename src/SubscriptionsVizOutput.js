@@ -20,7 +20,7 @@ class SubscriptionsVizOutput {
 
 		self.dataSocket.on('connect', () => {
 			self.debug(`Connected to socket ${self.dataSocket.config.host}:${self.dataSocket.config.port} (${self.dataSocket.config.protocol})`);
-			for(let subscriptionValue of self._cacheQuoteSubscriptions.values)
+			for(let subscriptionValue of self._cacheQuoteSubscriptions.data)
 				self._sendVariableSafe(subscriptionValue);
 		});
 	}

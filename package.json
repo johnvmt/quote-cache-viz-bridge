@@ -1,6 +1,6 @@
 {
   "name": "quote-cache-viz-bridge",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Output Quote Cache variables to Viz",
   "private": true,
   "author": {
