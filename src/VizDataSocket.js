@@ -3,10 +3,12 @@ import VizTCPDataSocket from "./VizTCPDataSocket";
 
 class VizDataSocket extends EventEmitter {
 
-	constructor(config) {
+	constructor(config, options) {
 		super();
 
 		const self = this;
+
+		self._options = options;
 
 		self.config = {
 			commandInterface: (config.hasOwnProperty('commandInterface') && config.commandInterface) || (!config.hasOwnProperty('port')), // Use command interface if commandInterface option is set or if default command port was assigned
@@ -17,7 +19,7 @@ class VizDataSocket extends EventEmitter {
 		};
 
 		if(self.config.protocol === 'tcp')
-			self.dataSocket = new VizTCPDataSocket(this.config.host, this.config.port, this.config.timeout);
+			self.dataSocket = new VizTCPDataSocket(this.config.host, this.config.port, this.config.timeout, options.debug);
 		else {
 
 		}
@@ -62,6 +64,7 @@ class VizDataSocket extends EventEmitter {
 			`send RENDERER*FUNCTION*DataPool*Data SET ${formattedKey}=${formattedValue}\0` :
 			`${key}|${formattedValue}\0`;
 
+		this.debug(`Sending "${commandStr}" to ${this.config.host}:${this.config.port} (${this.config.protocol})`);
 		// TODO Add try/catch
 		this.dataSocket.write(commandStr);
 	}
@@ -87,6 +90,13 @@ class VizDataSocket extends EventEmitter {
 			}
 			return `{${objectPropertyStrings.join(' ')}}`
 		}
+	}
+
+	debug() {
+		if(typeof this._options.debug === "function")
+			this._options.debug.apply(this, Array.prototype.slice.call(arguments));
+		else if(this._options.debug)
+			console.log.apply(console, Array.prototype.slice.call(arguments));
 	}
 }
 

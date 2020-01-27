@@ -8,7 +8,7 @@ class SubscriptionsVizOutput {
 		self._vizDataSocketConfig = vizDataSocketConfig;
 		self._options = options;
 
-		self.dataSocket = new VizDataSocket(vizDataSocketConfig);
+		self.dataSocket = new VizDataSocket(vizDataSocketConfig, options);
 
 		cacheQuoteSubscriptions.on('data', (variableName, variableData) => {
 			self._sendVariableSafe(variableName, variableData); // will try to send even if disconnected
